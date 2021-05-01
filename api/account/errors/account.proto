@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package fgo.account.errors;
+
+import "kratos/api/annotations.proto";
+
+option go_package = "github.com/fringelin/fgo/main/service/account/errors;errors";
+option java_multiple_files = true;
+option java_package = "com.github.fgo.account.errors";
+option objc_class_prefix = "FgoAccountErrors";
+
+enum Account {
+  option (kratos.api.errors) = true;
+
+  MissingName = 0;
+}
