@@ -4,7 +4,7 @@ import (
 	"flag"
 	"os"
 
-	"github.com/fringelin/fgo/main/service/account/internal/conf"
+	"github.com/fringelin/fgo/app/account/service/internal/conf"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"
 	"github.com/go-kratos/kratos/v2/config/file"
@@ -62,10 +62,11 @@ func main() {
 		panic(err)
 	}
 
-	app, err := initApp(bc.Server, bc.Data, logger)
+	app, cleanup, err := initApp(bc.Server, bc.Data, logger)
 	if err != nil {
 		panic(err)
 	}
+	defer cleanup()
 
 	// start and wait for stop signal
 	if err := app.Run(); err != nil {

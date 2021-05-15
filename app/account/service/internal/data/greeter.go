@@ -1,7 +1,8 @@
 package data
 
 import (
-	"github.com/fringelin/fgo/main/service/account/internal/biz"
+	"context"
+	"github.com/fringelin/fgo/app/account/service/internal/biz"
 	"github.com/go-kratos/kratos/v2/log"
 )
 
@@ -18,10 +19,10 @@ func NewGreeterRepo(data *Data, logger log.Logger) biz.GreeterRepo {
 	}
 }
 
-func (r *greeterRepo) CreateGreeter(g *biz.Greeter) error {
+func (r *greeterRepo) CreateGreeter(ctx context.Context, g *biz.Greeter) error {
 	return nil
 }
 
-func (r *greeterRepo) UpdateGreeter(g *biz.Greeter) error {
+func (r *greeterRepo) UpdateGreeter(ctx context.Context, g *biz.Greeter) error {
 	return nil
 }
