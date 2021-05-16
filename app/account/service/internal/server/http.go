@@ -1,7 +1,7 @@
 package server
 
 import (
-	v1 "github.com/fringelin/fgo/app/account/service/api/helloworld/v1"
+	v1 "github.com/fringelin/fgo/api/account/v1"
 	"github.com/fringelin/fgo/app/account/service/internal/conf"
 	"github.com/fringelin/fgo/app/account/service/internal/service"
 	"github.com/go-kratos/kratos/v2/log"
@@ -13,7 +13,7 @@ import (
 )
 
 // NewHTTPServer new a HTTP server.
-func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, account *service.AccountService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{}
 	if c.Http.Network != "" {
 		opts = append(opts, http.Network(c.Http.Network))
@@ -32,6 +32,6 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, logger log.L
 			logging.Server(logger),
 		),
 	)
-	srv.HandlePrefix("/", v1.NewGreeterHandler(greeter, m))
+	srv.HandlePrefix("/", v1.NewAccountHandler(account, m))
 	return srv
 }

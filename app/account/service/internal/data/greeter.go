@@ -1,28 +1,19 @@
 package data
 
 import (
-	"context"
 	"github.com/fringelin/fgo/app/account/service/internal/biz"
 	"github.com/go-kratos/kratos/v2/log"
 )
 
-type greeterRepo struct {
+type accountRepo struct {
 	data *Data
 	log  *log.Helper
 }
 
-// NewGreeterRepo .
-func NewGreeterRepo(data *Data, logger log.Logger) biz.GreeterRepo {
-	return &greeterRepo{
+// NewAccountRepo .
+func NewAccountRepo(data *Data, logger log.Logger) biz.AccountRepo {
+	return &accountRepo{
 		data: data,
 		log:  log.NewHelper("data/greeter", logger),
 	}
-}
-
-func (r *greeterRepo) CreateGreeter(ctx context.Context, g *biz.Greeter) error {
-	return nil
-}
-
-func (r *greeterRepo) UpdateGreeter(ctx context.Context, g *biz.Greeter) error {
-	return nil
 }

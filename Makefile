@@ -7,12 +7,12 @@ KRATOS=$(GOPATH)/pkg/mod/github.com/go-kratos/kratos/v2@$(KRATOS_VERSION)
 .PHONY: init
 # init env
 init:
-	go get -u google.golang.org/protobuf/cmd/protoc-gen-go
-	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
-	go get -u github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2
-	go get -u github.com/go-kratos/kratos/cmd/protoc-gen-go-errors/v2
-	go get -u github.com/google/wire/cmd/wire
-	go get -u github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	go install github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2@latest
+	go install github.com/go-kratos/kratos/cmd/protoc-gen-go-errors/v2@latest
+	go install github.com/google/wire/cmd/wire@latest
+	go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
 
 .PHONY: grpc
 # generate grpc code
@@ -42,9 +42,11 @@ http:
 # generate swagger
 swagger:
 	protoc --proto_path=. \
-	        --proto_path=$(KRATOS)/third_party \
-	        --openapiv2_out . \
-	        --openapiv2_opt logtostderr=true \
+           --proto_path=$(KRATOS)/api \
+           --proto_path=$(KRATOS)/third_party \
+           --proto_path=$(GOPATH)/src \
+	       --openapiv2_out . \
+	       --openapiv2_opt logtostderr=true \
            $(PROTO_FILES)
 
 .PHONY: generate
@@ -61,6 +63,18 @@ build:
 # test
 test:
 	go test -v ./... -cover
+
+.PHONY: wire
+# generate wire
+wire:
+	cd cmd/server && wire
+
+.PHONY: api
+# generate api proto
+api:
+	make grpc;
+	make http;
+	make swagger;
 
 .PHONY: all
 # generate all

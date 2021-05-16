@@ -1,7 +1,7 @@
 package server
 
 import (
-	v1 "github.com/fringelin/fgo/app/account/service/api/helloworld/v1"
+	v1 "github.com/fringelin/fgo/api/account/v1"
 	"github.com/fringelin/fgo/app/account/service/internal/conf"
 	"github.com/fringelin/fgo/app/account/service/internal/service"
 	"github.com/go-kratos/kratos/v2/log"
@@ -13,7 +13,7 @@ import (
 )
 
 // NewGRPCServer new a gRPC server.
-func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, logger log.Logger) *grpc.Server {
+func NewGRPCServer(c *conf.Server, account *service.AccountService, logger log.Logger) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			middleware.Chain(
@@ -33,6 +33,6 @@ func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, logger log.L
 		opts = append(opts, grpc.Timeout(c.Grpc.Timeout.AsDuration()))
 	}
 	srv := grpc.NewServer(opts...)
-	v1.RegisterGreeterServer(srv, greeter)
+	v1.RegisterAccountServer(srv, account)
 	return srv
 }
